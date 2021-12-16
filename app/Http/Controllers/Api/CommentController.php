@@ -24,7 +24,7 @@ class CommentController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CommentRequest $commentRequest, int $postId):\Illuminate\Http\JsonResponse {
-        if(Post::where('post_id', $postId)->count()) {
+        if(Post::where('id', $postId)->count()) {
             $comment = new Comment();
             $comment->comment = $commentRequest->comment;
             $comment->author_name = $commentRequest->author_name;
