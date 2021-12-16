@@ -14,6 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    print "sdfsdf";
-    // return view('welcome');
+    return view('welcome');
 });
