@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
+use App\Models\Post;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CommentController
@@ -23,14 +25,21 @@ class CommentController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CommentRequest $commentRequest, int $postId):\Illuminate\Http\JsonResponse {
-        $comment = new Comment();
-        $comment->comment = $commentRequest->comment;
-        $comment->author_name = $commentRequest->author_name;
-        $comment->post_id = $postId;
-        $comment->save();
+        if(Post::find($postId)) {
+            $comment = new Comment();
+            $comment->comment = $commentRequest->comment;
+            $comment->author_name = $commentRequest->author_name;
+            $comment->post_id = $postId;
+            $comment->save();
+            return response()->json([
+                'success' => [
+                    'message' => 'Successfully!'
+                ]
+            ]);
+        }
         return response()->json([
-            'success' => [
-                'message' => 'Successfully!'
+            'error' => [
+                'message' => 'Post does not exists!'
             ]
         ]);
     }

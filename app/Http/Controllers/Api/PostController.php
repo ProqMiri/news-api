@@ -76,11 +76,18 @@ class PostController extends Controller
      */
     public function upvote (int $id):\Illuminate\Http\JsonResponse {
         $post = Post::find($id);
-        $post->upvotes++;
-        $post->save();
+        if($post) {
+            $post->upvotes++;
+            $post->save();
+            return response()->json([
+                'success' => [
+                    'message' => 'Successfully!'
+                ]
+            ]);
+        }
         return response()->json([
-            'success' => [
-                'message' => 'Successfully!'
+            'error' => [
+                'message' => 'Post does not exists!'
             ]
         ]);
     }
